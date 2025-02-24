@@ -1,7 +1,9 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Initialize the Gemini API
-const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GEMINI_API_KEY);
+const genAI = new GoogleGenerativeAI(
+  import.meta.env.VITE_REACT_APP_GEMINI_API_KEY
+);
 
 export const generateBudgetRecommendations = async (formData) => {
   try {
@@ -24,19 +26,23 @@ export const generateBudgetRecommendations = async (formData) => {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    
+
     // Parse the AI response to extract structured data
-    const recommendations = text.split('\n').filter(line => line.trim().length > 0);
-    
+    const recommendations = text
+      .split("\n")
+      .filter((line) => line.trim().length > 0);
+
     return {
       aiRecommendations: recommendations,
-      success: true
+      success: true,
     };
   } catch (error) {
-    console.error('Error generating AI recommendations:', error);
+    console.error("Error generating AI recommendations:", error);
     return {
-      aiRecommendations: ['Unable to generate AI recommendations at this time.'],
-      success: false
+      aiRecommendations: [
+        "Unable to generate AI recommendations at this time.",
+      ],
+      success: false,
     };
   }
 };

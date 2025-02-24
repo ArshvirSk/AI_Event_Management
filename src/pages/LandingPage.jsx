@@ -4,18 +4,26 @@ import EventoImg from "../assets/EVENTO.png";
 const LandingPage = () => {
   return (
     <div className="p-2.5 bg-gray-200">
-      <div className="bg-landing h-screen flex flex-col items-center justify-center text-center gap-6 rounded-3xl">
-        <h1 className="text-5xl md:text-9xl font-bold">Techspark &apos;25</h1>
+      <div className="bg-landing border border-gray-500 h-screen flex flex-col items-center justify-center text-center gap-2 rounded-3xl">
+        <div>
+          <img
+            src={EventoImg}
+            alt="Evento Image"
+            className="select-none"
+            width={600}
+            draggable={false}
+          />
+          <p className="text-gray-600 text-xl -mt-10">
+            The AI-powered Event Manager Solution
+          </p>
+        </div>
         {/* Presents text */}
-        <p className="text-gray-600 text-2xl">presents</p>
+        <p className="text-gray-800 text-3xl mt-2 font-bold">at</p>
 
         {/* Main heading */}
-        <img src={EventoImg} alt="" width={400} draggable={false} />
+        <h1 className="text-3xl md:text-7xl font-bold">Techspark &apos;25</h1>
 
         {/* Subtitle */}
-        <p className="text-gray-600 text-2xl">
-          The AI-powered Event Manager Solution
-        </p>
 
         {/* Learn more button */}
         <button className="mt-4 cursor-pointer bg-black text-white px-8 py-3 rounded-md hover:bg-gray-800 transition-colors">

@@ -1,6 +1,6 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_REACT_APP_GEMINI_API_KEY);
 
@@ -40,52 +40,48 @@ export const generateSponsors = async (eventDetails) => {
 
     // Parse the AI response into structured data
     const sponsors = parseSponsorsData(text);
-
+    
     return sponsors;
   } catch (error) {
-    console.error("Error generating sponsor recommendations:", error);
+    console.error('Error generating sponsor recommendations:', error);
     return getSampleSponsors(); // Fallback to sample data
   }
 };
 
 const parseSponsorsData = (text) => {
   // This is a simple parser. In production, you'd want more robust parsing
-  const lines = text.split("\n").filter((line) => line.trim());
+  const lines = text.split('\n').filter(line => line.trim());
   const sponsors = [];
   let currentSponsor = {};
 
   for (const line of lines) {
-    if (line.includes("Company Name:")) {
+    if (line.includes('Company Name:')) {
       if (Object.keys(currentSponsor).length > 0) {
         sponsors.push(currentSponsor);
       }
       currentSponsor = {};
-      currentSponsor.companyName = line.split("Company Name:")[1].trim();
-    } else if (line.includes("Industry:")) {
-      currentSponsor.industry = line.split("Industry:")[1].trim();
-    } else if (line.includes("Sponsorship Category:")) {
-      currentSponsor.category = line.split("Sponsorship Category:")[1].trim();
-    } else if (line.includes("Contact Person:")) {
-      currentSponsor.contactPerson = line.split("Contact Person:")[1].trim();
-    } else if (line.includes("Email:")) {
-      currentSponsor.email = line.split("Email:")[1].trim();
-    } else if (line.includes("Phone:")) {
-      currentSponsor.phone = line.split("Phone:")[1].trim();
-    } else if (line.includes("Address:")) {
-      currentSponsor.address = line.split("Address:")[1].trim();
-    } else if (line.includes("Sponsorship Range:")) {
-      currentSponsor.sponsorshipRange = line
-        .split("Sponsorship Range:")[1]
-        .trim();
-    } else if (line.includes("Past Events:")) {
-      currentSponsor.pastEvents = line.split("Past Events:")[1].trim();
-    } else if (line.includes("Preferred Events:")) {
-      currentSponsor.preferredEvents = line
-        .split("Preferred Events:")[1]
-        .trim();
+      currentSponsor.companyName = line.split('Company Name:')[1].trim();
+    } else if (line.includes('Industry:')) {
+      currentSponsor.industry = line.split('Industry:')[1].trim();
+    } else if (line.includes('Sponsorship Category:')) {
+      currentSponsor.category = line.split('Sponsorship Category:')[1].trim();
+    } else if (line.includes('Contact Person:')) {
+      currentSponsor.contactPerson = line.split('Contact Person:')[1].trim();
+    } else if (line.includes('Email:')) {
+      currentSponsor.email = line.split('Email:')[1].trim();
+    } else if (line.includes('Phone:')) {
+      currentSponsor.phone = line.split('Phone:')[1].trim();
+    } else if (line.includes('Address:')) {
+      currentSponsor.address = line.split('Address:')[1].trim();
+    } else if (line.includes('Sponsorship Range:')) {
+      currentSponsor.sponsorshipRange = line.split('Sponsorship Range:')[1].trim();
+    } else if (line.includes('Past Events:')) {
+      currentSponsor.pastEvents = line.split('Past Events:')[1].trim();
+    } else if (line.includes('Preferred Events:')) {
+      currentSponsor.preferredEvents = line.split('Preferred Events:')[1].trim();
     }
   }
-
+  
   if (Object.keys(currentSponsor).length > 0) {
     sponsors.push(currentSponsor);
   }
@@ -95,33 +91,29 @@ const parseSponsorsData = (text) => {
 
 export const generateSponsorsExcel = (sponsors) => {
   // Create worksheet
-  const ws = XLSX.utils.json_to_sheet(
-    sponsors.map((sponsor) => ({
-      "Company Name": sponsor.companyName,
-      "Industry/Sector": sponsor.industry,
-      "Sponsorship Category": sponsor.category,
-      "Contact Person": sponsor.contactPerson,
-      Email: sponsor.email,
-      Phone: sponsor.phone,
-      Address: sponsor.address,
-      "Sponsorship Range": sponsor.sponsorshipRange,
-      "Past Event History": sponsor.pastEvents,
-      "Preferred Event Types": sponsor.preferredEvents,
-    }))
-  );
+  const ws = XLSX.utils.json_to_sheet(sponsors.map(sponsor => ({
+    'Company Name': sponsor.companyName,
+    'Industry/Sector': sponsor.industry,
+    'Sponsorship Category': sponsor.category,
+    'Contact Person': sponsor.contactPerson,
+    'Email': sponsor.email,
+    'Phone': sponsor.phone,
+    'Address': sponsor.address,
+    'Sponsorship Range': sponsor.sponsorshipRange,
+    'Past Event History': sponsor.pastEvents,
+    'Preferred Event Types': sponsor.preferredEvents
+  })));
 
   // Create workbook
   const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Potential Sponsors");
+  XLSX.utils.book_append_sheet(wb, ws, 'Potential Sponsors');
 
   // Generate Excel file
-  const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-  const data = new Blob([excelBuffer], {
-    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  });
-
+  const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  const data = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  
   // Save file
-  saveAs(data, "potential_sponsors.xlsx");
+  saveAs(data, 'potential_sponsors.xlsx');
 };
 
 // Fallback sample data with Mumbai-based companies
@@ -137,7 +129,7 @@ const getSampleSponsors = () => [
     address: "Maker Chambers IV, Nariman Point, Mumbai 400021",
     sponsorshipRange: "₹10,00,000 - ₹25,00,000",
     pastEvents: "Tech Symposiums, Cultural Festivals",
-    preferredEvents: "Innovation Challenges, Cultural Events",
+    preferredEvents: "Innovation Challenges, Cultural Events"
   },
   {
     companyName: "Tata Consultancy Services",
@@ -149,7 +141,7 @@ const getSampleSponsors = () => [
     address: "TCS House, Raveline Street, Fort, Mumbai 400001",
     sponsorshipRange: "₹5,00,000 - ₹15,00,000",
     pastEvents: "Coding Competitions, Tech Fests",
-    preferredEvents: "Technical Workshops, Hackathons",
+    preferredEvents: "Technical Workshops, Hackathons"
   },
   // Banking & Finance
   {
@@ -162,7 +154,7 @@ const getSampleSponsors = () => [
     address: "HDFC Bank House, Senapati Bapat Marg, Lower Parel, Mumbai 400013",
     sponsorshipRange: "₹3,00,000 - ₹8,00,000",
     pastEvents: "Business Conclaves, Finance Seminars",
-    preferredEvents: "Finance Workshops, Business Events",
+    preferredEvents: "Finance Workshops, Business Events"
   },
   {
     companyName: "ICICI Bank",
@@ -174,7 +166,7 @@ const getSampleSponsors = () => [
     address: "ICICI Bank Towers, Bandra-Kurla Complex, Mumbai 400051",
     sponsorshipRange: "₹3,00,000 - ₹7,00,000",
     pastEvents: "Financial Literacy Programs, Youth Festivals",
-    preferredEvents: "Educational Events, Cultural Programs",
+    preferredEvents: "Educational Events, Cultural Programs"
   },
   // Entertainment & Media
   {
@@ -187,7 +179,7 @@ const getSampleSponsors = () => [
     address: "18th Floor, Marathon Futurex, Lower Parel, Mumbai 400013",
     sponsorshipRange: "₹2,00,000 - ₹5,00,000",
     pastEvents: "Media Festivals, Cultural Shows",
-    preferredEvents: "Cultural Events, Entertainment Shows",
+    preferredEvents: "Cultural Events, Entertainment Shows"
   },
   // Local Tech Companies
   {
@@ -200,7 +192,7 @@ const getSampleSponsors = () => [
     address: "Spectrum Towers, Mindspace Complex, Malad West, Mumbai 400064",
     sponsorshipRange: "₹2,00,000 - ₹6,00,000",
     pastEvents: "Tech Conferences, Innovation Meets",
-    preferredEvents: "Technology Events, Innovation Competitions",
+    preferredEvents: "Technology Events, Innovation Competitions"
   },
   // FMCG Companies
   {
@@ -210,11 +202,10 @@ const getSampleSponsors = () => [
     contactPerson: "Anjali Sharma",
     email: "anjali.sharma@hul.com",
     phone: "+91-22-3983-3000",
-    address:
-      "Unilever House, B.D. Sawant Marg, Chakala, Andheri East, Mumbai 400099",
+    address: "Unilever House, B.D. Sawant Marg, Chakala, Andheri East, Mumbai 400099",
     sponsorshipRange: "₹1,00,000 - ₹3,00,000",
     pastEvents: "Marketing Events, Campus Initiatives",
-    preferredEvents: "Marketing Competitions, Youth Events",
+    preferredEvents: "Marketing Competitions, Youth Events"
   },
   // Retail
   {
@@ -227,7 +218,7 @@ const getSampleSponsors = () => [
     address: "Anjaneya CHS Limited, Nahur Village, Mulund West, Mumbai 400080",
     sponsorshipRange: "₹50,000 - ₹2,00,000",
     pastEvents: "Local Community Events, College Fests",
-    preferredEvents: "Community Events, Student Activities",
+    preferredEvents: "Community Events, Student Activities"
   },
   // Local Success Stories
   {
@@ -240,7 +231,7 @@ const getSampleSponsors = () => [
     address: "B Wing, Trade Centre, Bandra Kurla Complex, Mumbai 400051",
     sponsorshipRange: "₹1,00,000 - ₹3,00,000",
     pastEvents: "Startup Events, Entrepreneurship Summits",
-    preferredEvents: "Startup Competitions, Business Plan Contests",
+    preferredEvents: "Startup Competitions, Business Plan Contests"
   },
   // Education Sector
   {
@@ -253,6 +244,6 @@ const getSampleSponsors = () => [
     address: "Techniplex Complex, Goregaon West, Mumbai 400062",
     sponsorshipRange: "₹25,000 - ₹1,00,000",
     pastEvents: "Technical Training Programs, Education Fairs",
-    preferredEvents: "Technical Workshops, Career Fairs",
-  },
+    preferredEvents: "Technical Workshops, Career Fairs"
+  }
 ];

@@ -1,28 +1,25 @@
 // AI-based budget calculation logic
-import { generateBudgetRecommendations } from './geminiService';
-import { getVendorRecommendations } from './vendorService';
-import { generateSponsors } from './sponsorService';
+import { generateBudgetRecommendations } from "./geminiService";
+import { generateSponsors } from "./sponsorService";
+import { getVendorRecommendations } from "./vendorService";
 
 export const calculateBudget = async (formData) => {
   const { totalBudget, expectedAttendees, eventDuration, eventType } = formData;
-  
+
   // Get vendor and sponsor recommendations
-  const [
-    { vendors, city, aiRecommendation },
-    sponsors
-  ] = await Promise.all([
+  const [{ vendors, city, aiRecommendation }, sponsors] = await Promise.all([
     getVendorRecommendations(formData),
-    generateSponsors(formData)
+    generateSponsors(formData),
   ]);
 
   // Basic cost ratios based on event type (adjusted for Indian context)
   const costRatios = {
-    'Venue Rental': 0.25,
-    'Catering & Refreshments': 0.30,
-    'Decoration & Ambiance': 0.15,
-    'Technical Equipment': 0.12,
-    'Marketing & Promotion': 0.08,
-    'Miscellaneous & Emergency': 0.10
+    "Venue Rental": 0.25,
+    "Catering & Refreshments": 0.3,
+    "Decoration & Ambiance": 0.15,
+    "Technical Equipment": 0.12,
+    "Marketing & Promotion": 0.08,
+    "Miscellaneous & Emergency": 0.1,
   };
 
   // Calculate budget breakdown in rupees
@@ -35,7 +32,7 @@ export const calculateBudget = async (formData) => {
   const potentialSponsorship = sponsors.reduce((total, sponsor) => {
     const range = sponsor.sponsorshipRange.match(/₹([\d,]+)/g);
     if (range && range.length > 0) {
-      const amount = parseInt(range[0].replace(/[₹,]/g, ''));
+      const amount = parseInt(range[0].replace(/[₹,]/g, ""));
       return total + amount;
     }
     return total;
@@ -44,11 +41,15 @@ export const calculateBudget = async (formData) => {
   // Generate basic recommendations
   const baseRecommendations = [
     `Venue Space Required: ${calculateVenueSize(expectedAttendees)} sqft`,
-    `For ${eventDuration} hours, plan for ${Math.ceil(eventDuration / 4)} meal/snack services`,
-    `Emergency Fund: ₹${Math.round(totalBudget * 0.10)}`,
+    `For ${eventDuration} hours, plan for ${Math.ceil(
+      eventDuration / 4
+    )} meal/snack services`,
+    `Emergency Fund: ₹${Math.round(totalBudget * 0.1)}`,
     getEventSpecificRecommendation(eventType),
     `Recommended City: ${city} - ${aiRecommendation}`,
-    `Potential Sponsorship Amount: ₹${potentialSponsorship.toLocaleString('en-IN')} from ${sponsors.length} potential sponsors`
+    `Potential Sponsorship Amount: ₹${potentialSponsorship.toLocaleString(
+      "en-IN"
+    )} from ${sponsors.length} potential sponsors`,
   ];
 
   // Get AI-powered recommendations from Gemini
@@ -58,11 +59,11 @@ export const calculateBudget = async (formData) => {
     totalBudget: parseInt(totalBudget),
     breakdown,
     recommendations: [...baseRecommendations, ...aiRecommendations],
-    currency: '₹',
+    currency: "₹",
     vendors,
     recommendedCity: city,
     sponsors,
-    potentialSponsorship
+    potentialSponsorship,
   };
 };
 
@@ -72,13 +73,17 @@ const calculateVenueSize = (attendees) => {
 
 const getEventSpecificRecommendation = (eventType) => {
   const recommendations = {
-    'conference': 'Consider booking a professional conference venue with built-in AV equipment',
-    'cultural': 'Look for venues with proper stage and green room facilities',
-    'technical': 'Ensure backup power supply and high-speed internet connectivity',
-    'sports': 'Include first-aid facilities and necessary safety equipment',
-    'workshop': 'Account for workshop materials and handouts in the budget'
+    conference:
+      "Consider booking a professional conference venue with built-in AV equipment",
+    cultural: "Look for venues with proper stage and green room facilities",
+    technical:
+      "Ensure backup power supply and high-speed internet connectivity",
+    sports: "Include first-aid facilities and necessary safety equipment",
+    workshop: "Account for workshop materials and handouts in the budget",
   };
 
-  return recommendations[eventType.toLowerCase()] || 
-    'Consider professional photography/videography services for event documentation';
+  return (
+    recommendations[eventType.toLowerCase()] ||
+    "Consider professional photography/videography services for event documentation"
+  );
 };

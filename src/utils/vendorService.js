@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_REACT_APP_GEMINI_API_KEY);
 
@@ -13,7 +13,7 @@ const vendorDatabase = {
       phone: "+91-22-2419-8101",
       rating: 4.4,
       specialization: "Technical events and seminars",
-      location: { lat: 19.0222, lng: 72.8561 },
+      location: { lat: 19.0222, lng: 72.8561 }
     },
     {
       name: "St. Xavier's College Hall",
@@ -22,18 +22,17 @@ const vendorDatabase = {
       phone: "+91-22-2262-0661",
       rating: 4.6,
       specialization: "Cultural events and performances",
-      location: { lat: 18.9432, lng: 72.8324 },
+      location: { lat: 18.9432, lng: 72.8324 }
     },
     // Professional Venues
     {
       name: "The Grand Hyatt Mumbai",
       category: "Premium Venue",
-      address:
-        "Off Western Express Highway, Santacruz East, Mumbai, Maharashtra 400055",
+      address: "Off Western Express Highway, Santacruz East, Mumbai, Maharashtra 400055",
       phone: "+91-22-6676-1234",
       rating: 4.8,
       specialization: "Large conferences and cultural events",
-      location: { lat: 19.076, lng: 72.8777 },
+      location: { lat: 19.0760, lng: 72.8777 }
     },
     {
       name: "Nehru Centre Auditorium",
@@ -42,7 +41,7 @@ const vendorDatabase = {
       phone: "+91-22-2496-4676",
       rating: 4.5,
       specialization: "Cultural performances and seminars",
-      location: { lat: 19.0132, lng: 72.8176 },
+      location: { lat: 19.0132, lng: 72.8176 }
     },
     {
       name: "Rang Sharda Auditorium",
@@ -51,8 +50,8 @@ const vendorDatabase = {
       phone: "+91-22-2640-1919",
       rating: 4.3,
       specialization: "Theater and cultural performances",
-      location: { lat: 19.0509, lng: 72.832 },
-    },
+      location: { lat: 19.0509, lng: 72.8320 }
+    }
   ],
   caterers: [
     // Traditional Maharashtra Cuisine
@@ -63,7 +62,7 @@ const vendorDatabase = {
       phone: "+91-98765-43210",
       rating: 4.7,
       specialization: "Authentic Maharashtrian cuisine",
-      location: { lat: 19.0178, lng: 72.8478 },
+      location: { lat: 19.0178, lng: 72.8478 }
     },
     {
       name: "Pune Caterers Mumbai",
@@ -72,7 +71,7 @@ const vendorDatabase = {
       phone: "+91-98765-43211",
       rating: 4.6,
       specialization: "Traditional Maharashtrian snacks and meals",
-      location: { lat: 19.0969, lng: 72.8575 },
+      location: { lat: 19.0969, lng: 72.8575 }
     },
     // Modern Catering
     {
@@ -82,7 +81,7 @@ const vendorDatabase = {
       phone: "+91-22-4343-4343",
       rating: 4.8,
       specialization: "Multi-cuisine corporate catering",
-      location: { lat: 18.9977, lng: 72.8376 },
+      location: { lat: 18.9977, lng: 72.8376 }
     },
     {
       name: "Blue Sea Catering",
@@ -91,8 +90,8 @@ const vendorDatabase = {
       phone: "+91-22-2438-2222",
       rating: 4.6,
       specialization: "Large-scale event catering",
-      location: { lat: 19.0176, lng: 72.8145 },
-    },
+      location: { lat: 19.0176, lng: 72.8145 }
+    }
   ],
   decorators: [
     // Modern Decorators
@@ -103,7 +102,7 @@ const vendorDatabase = {
       phone: "+91-98765-43211",
       rating: 4.8,
       specialization: "Modern event designs and setups",
-      location: { lat: 19.0596, lng: 72.8295 },
+      location: { lat: 19.0596, lng: 72.8295 }
     },
     {
       name: "Mumbai Event Decorators",
@@ -112,7 +111,7 @@ const vendorDatabase = {
       phone: "+91-98765-43212",
       rating: 4.4,
       specialization: "College event decorations",
-      location: { lat: 19.1872, lng: 72.8484 },
+      location: { lat: 19.1872, lng: 72.8484 }
     },
     // Traditional Decorators
     {
@@ -122,8 +121,8 @@ const vendorDatabase = {
       phone: "+91-98765-43213",
       rating: 4.5,
       specialization: "Traditional Maharashtrian decoration",
-      location: { lat: 19.2335, lng: 72.978 },
-    },
+      location: { lat: 19.2335, lng: 72.9780 }
+    }
   ],
   equipment: [
     // Audio-Visual
@@ -134,7 +133,7 @@ const vendorDatabase = {
       phone: "+91-98765-43214",
       rating: 4.7,
       specialization: "Professional sound and lighting systems",
-      location: { lat: 19.2037, lng: 72.8597 },
+      location: { lat: 19.2037, lng: 72.8597 }
     },
     {
       name: "Tech Events Mumbai",
@@ -143,8 +142,8 @@ const vendorDatabase = {
       phone: "+91-98765-43215",
       rating: 4.5,
       specialization: "Complete technical event solutions",
-      location: { lat: 19.1176, lng: 72.906 },
-    },
+      location: { lat: 19.1176, lng: 72.9060 }
+    }
   ],
   photography: [
     {
@@ -154,7 +153,7 @@ const vendorDatabase = {
       phone: "+91-98765-43216",
       rating: 4.8,
       specialization: "Event photography and videography",
-      location: { lat: 19.1136, lng: 72.8697 },
+      location: { lat: 19.1136, lng: 72.8697 }
     },
     {
       name: "Mumbai Memories",
@@ -163,8 +162,8 @@ const vendorDatabase = {
       phone: "+91-98765-43217",
       rating: 4.6,
       specialization: "Complete event documentation",
-      location: { lat: 19.2362, lng: 72.8486 },
-    },
+      location: { lat: 19.2362, lng: 72.8486 }
+    }
   ],
   transportation: [
     {
@@ -174,7 +173,7 @@ const vendorDatabase = {
       phone: "+91-98765-43218",
       rating: 4.4,
       specialization: "Event transportation and logistics",
-      location: { lat: 19.0726, lng: 72.8845 },
+      location: { lat: 19.0726, lng: 72.8845 }
     },
     {
       name: "City Connect Events",
@@ -183,9 +182,9 @@ const vendorDatabase = {
       phone: "+91-98765-43219",
       rating: 4.3,
       specialization: "Guest transportation services",
-      location: { lat: 19.0522, lng: 72.9005 },
-    },
-  ],
+      location: { lat: 19.0522, lng: 72.9005 }
+    }
+  ]
 };
 
 export const getVendorRecommendations = async (eventDetails) => {
@@ -218,20 +217,20 @@ export const getVendorRecommendations = async (eventDetails) => {
       ...vendorDatabase.decorators,
       ...vendorDatabase.equipment,
       ...vendorDatabase.photography,
-      ...vendorDatabase.transportation,
+      ...vendorDatabase.transportation
     ];
 
     return {
       vendors: allVendors,
-      city: "Mumbai",
-      aiRecommendation,
+      city: 'Mumbai',
+      aiRecommendation
     };
   } catch (error) {
-    console.error("Error getting vendor recommendations:", error);
+    console.error('Error getting vendor recommendations:', error);
     return {
       vendors: vendorDatabase.venues,
-      city: "Mumbai",
-      aiRecommendation: "Error generating AI recommendation",
+      city: 'Mumbai',
+      aiRecommendation: 'Error generating AI recommendation'
     };
   }
 };

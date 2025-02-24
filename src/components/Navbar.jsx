@@ -2,7 +2,7 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <nav className="absolute right-0 left-0 top-0 rounded-full w-[55vw] mx-auto flex items-center justify-center gap-10 py-4 my-5 text-[18px] drop-shadow-lg bg-white bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 border border-gray-300">
+    <nav className="z-[100] absolute right-0 left-0 top-0 rounded-full w-[55vw] mx-auto flex items-center justify-center gap-10 py-4 my-6 text-[18px] drop-shadow-lg bg-white bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 border border-gray-300">
       <ul className="flex items-center justify-center max-w-5xl gap-10">
         <li className="hover:text-blue-500 transition-all 700ms ease-in-out">
           <a href="/">Home</a>
