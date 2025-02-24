@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+
+* {
+  font-family: "Roboto", serif;
+}
+
+.bg-landing {
+  background-image: url("./assets/LandingGrad.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
