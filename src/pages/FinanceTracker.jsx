@@ -1,125 +1,224 @@
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
-  Button,
-  Paper,
-  Step,
-  StepLabel,
-  Stepper,
+  Card,
+  CardContent,
   Typography,
-} from "@mui/material";
-import React, { useState } from "react";
-import BudgetAnalysis from "../components/BudgetAnalysis";
-import BudgetForm from "../components/BudgetForm";
-import ExpenseTracker from "../components/ExpenseTracker";
+  Grid,
+  CircularProgress,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Chip,
+} from '@mui/material';
+import {
+  TrendingUp as IncomeIcon,
+  TrendingDown as ExpenseIcon,
+  AccountBalance as BalanceIcon,
+  PieChart as CategoryIcon,
+} from '@mui/icons-material';
+import { fetchFinances } from '../store/slices/financeSlice';
+import AddTransactionForm from '../components/AddTransactionForm';
+import FinancialInsights from '../components/FinancialInsights';
 
-const steps = ["Budget Form", "Expense Tracking", "Budget Analysis"];
+const SummaryCard = ({ title, value, icon, color }) => (
+  <Card sx={{ height: '100%' }}>
+    <CardContent>
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Box>
+          <Typography variant="h6" color="textSecondary" gutterBottom>
+            {title}
+          </Typography>
+          <Typography variant="h4">
+            ${value.toLocaleString()}
+          </Typography>
+        </Box>
+        {React.createElement(icon, { sx: { fontSize: 40, color } })}
+      </Box>
+    </CardContent>
+  </Card>
+);
+
+const CategoryBreakdown = ({ categoryTotals }) => (
+  <Card>
+    <CardContent>
+      <Box display="flex" alignItems="center" mb={2}>
+        <CategoryIcon sx={{ mr: 1 }} />
+        <Typography variant="h6">Category Breakdown</Typography>
+      </Box>
+      <TableContainer>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Category</TableCell>
+              <TableCell align="right">Income</TableCell>
+              <TableCell align="right">Expenses</TableCell>
+              <TableCell align="right">Net</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Object.entries(categoryTotals).map(([category, { income, expense }]) => (
+              <TableRow key={category}>
+                <TableCell>
+                  <Chip 
+                    label={category} 
+                    size="small" 
+                    sx={{ textTransform: 'capitalize' }}
+                  />
+                </TableCell>
+                <TableCell align="right" sx={{ color: 'success.main' }}>
+                  ${income.toLocaleString()}
+                </TableCell>
+                <TableCell align="right" sx={{ color: 'error.main' }}>
+                  ${expense.toLocaleString()}
+                </TableCell>
+                <TableCell 
+                  align="right"
+                  sx={{ 
+                    color: income - expense >= 0 ? 'success.main' : 'error.main',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  ${(income - expense).toLocaleString()}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </CardContent>
+  </Card>
+);
 
 const FinanceTracker = () => {
-  const [activeStep, setActiveStep] = useState(0);
-  const [budget, setBudget] = useState(null);
-  const [expenses, setExpenses] = useState(null);
+  const dispatch = useDispatch();
+  const { transactions, summary, loading, error } = useSelector((state) => state.finances);
 
-  const handleNext = () => {
-    setActiveStep((prevStep) => prevStep + 1);
-  };
+  useEffect(() => {
+    dispatch(fetchFinances());
+  }, [dispatch]);
 
-  const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1);
-  };
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
 
-  const handleBudgetSubmit = (formData) => {
-    setBudget(formData);
-    handleNext();
-  };
+  if (error) {
+    return (
+      <Box sx={{ p: 3 }}>
+        <Typography color="error">Error: {error}</Typography>
+      </Box>
+    );
+  }
 
-  const handleExpenseUpdate = (expenseData) => {
-    setExpenses(expenseData);
-    handleNext();
-  };
-
-  const getStepContent = (step) => {
-    switch (step) {
-      case 0:
-        return <BudgetForm onSubmit={handleBudgetSubmit} />;
-      case 1:
-        return budget ? (
-          <ExpenseTracker
-            budget={budget}
-            onExpenseUpdate={handleExpenseUpdate}
-          />
-        ) : (
-          <Typography variant="body1" className="message">
-            Please submit the budget form first
-          </Typography>
-        );
-      case 2:
-        return budget && expenses ? (
-          <BudgetAnalysis budget={budget} expenses={expenses} />
-        ) : (
-          <Typography variant="body1" className="message">
-            Please complete budget and expense tracking first
-          </Typography>
-        );
-      default:
-        return null;
+  const summaryCards = [
+    {
+      title: 'Total Income',
+      value: summary.totalIncome,
+      icon: IncomeIcon,
+      color: '#4caf50'
+    },
+    {
+      title: 'Total Expenses',
+      value: summary.totalExpenses,
+      icon: ExpenseIcon,
+      color: '#f44336'
+    },
+    {
+      title: 'Balance',
+      value: summary.balance,
+      icon: BalanceIcon,
+      color: '#2196f3'
     }
-  };
+  ];
 
   return (
-    <Box className="mt-32 mx-auto px-4">
-      <Paper elevation={3} className="p-8">
-        <h1 className="text-center mb-8 font-bold text-4xl">
-          College Event Budget Planner
-        </h1>
+    <Box sx={{ p: 3 }}>
+      <Typography variant="h4" gutterBottom>
+        Finance Tracker
+      </Typography>
 
-        <Stepper activeStep={activeStep} alternativeLabel className="mb-8">
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
+      <Grid container spacing={3}>
+        {summaryCards.map((card, index) => (
+          <Grid item xs={12} md={4} key={index}>
+            <SummaryCard {...card} />
+          </Grid>
+        ))}
 
-        <div className="mt-8">
-          {activeStep === steps.length ? (
-            <div>
-              <Typography className="mb-4">
-                All steps completed - you&apos;re finished
+        <Grid item xs={12} md={8}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                Recent Transactions
               </Typography>
-              <Button onClick={() => setActiveStep(0)} className="mt-4">
-                Reset
-              </Button>
-            </div>
-          ) : (
-            <div>
-              {getStepContent(activeStep)}
-              <Box className="flex justify-between mt-8">
-                <Button
-                  variant="contained"
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  className="mr-4"
-                >
-                  Back
-                </Button>
-                {activeStep !== steps.length - 1 && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    disabled={
-                      (activeStep === 0 && !budget) ||
-                      (activeStep === 1 && !expenses)
-                    }
-                  >
-                    Next
-                  </Button>
-                )}
-              </Box>
-            </div>
-          )}
-        </div>
-      </Paper>
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Description</TableCell>
+                      <TableCell>Category</TableCell>
+                      <TableCell>Date</TableCell>
+                      <TableCell>Type</TableCell>
+                      <TableCell align="right">Amount</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {transactions.map((transaction) => (
+                      <TableRow key={transaction.id}>
+                        <TableCell>{transaction.description}</TableCell>
+                        <TableCell>
+                          <Chip 
+                            label={transaction.category} 
+                            size="small"
+                            sx={{ textTransform: 'capitalize' }}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          {new Date(transaction.date).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell>
+                          <Chip
+                            label={transaction.type}
+                            color={transaction.type === 'income' ? 'success' : 'error'}
+                            size="small"
+                            sx={{ textTransform: 'capitalize' }}
+                          />
+                        </TableCell>
+                        <TableCell align="right">
+                          ${transaction.amount.toLocaleString()}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} md={4}>
+          <AddTransactionForm />
+        </Grid>
+
+        <Grid item xs={12}>
+          <FinancialInsights 
+            transactions={transactions}
+            summary={summary}
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <CategoryBreakdown categoryTotals={summary.categoryTotals} />
+        </Grid>
+      </Grid>
     </Box>
   );
 };

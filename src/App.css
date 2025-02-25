@@ -5,6 +5,10 @@
   font-family: "Roboto", serif;
 }
 
+body {
+  background-color: #e5e7eb;
+}
+
 .bg-landing {
   background-image: url("./assets/LandingGrad.png");
   background-repeat: no-repeat;
