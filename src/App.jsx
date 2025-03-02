@@ -6,6 +6,7 @@ import FinanceTracker from "./pages/FinanceTracker";
 import LandingPage from "./pages/LandingPage";
 import Profile from "./pages/Profile";
 import TaskManager from "./pages/TaskManager";
+import EventIdeaGenerator from "./pages/EventIdeaGenerator";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/finance-tracker" element={<FinanceTracker />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/event-ideas" element={<EventIdeaGenerator />} />
       </Routes>
     </div>
   );

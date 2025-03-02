@@ -26,9 +26,9 @@ const LandingPage = () => {
         {/* Subtitle */}
 
         {/* Learn more button */}
-        <button className="mt-4 cursor-pointer bg-black text-white px-8 py-3 rounded-md hover:bg-gray-800 transition-colors">
+        {/* <button className="mt-4 cursor-pointer bg-black text-white px-8 py-3 rounded-md hover:bg-gray-800 transition-colors">
           Learn more
-        </button>
+        </button> */}
       </div>
       <div className="flex gap-6 mt-5">
         <div className="flex-1 border border-black rounded-xl p-10">
@@ -39,7 +39,7 @@ const LandingPage = () => {
             <h1 className="text-4xl font-bold bg-[#b9ff66] p-3 w-full">
               Events
             </h1>
-            <a href="/" className="mt-4 flex items-center gap-3 group mt-12">
+            <a href="/event-ideas" className="mt-4 flex items-center gap-3 group mt-12">
               <div className="bg-[#191a23] rounded-full p-2 transition-transform duration-300 group-hover:scale-110">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +66,7 @@ const LandingPage = () => {
               <h1 className="text-4xl font-bold bg-[#b9ff66] p-3 w-full">
                 Finance Tracker
               </h1>
-              <a href="/" className="mt-4 flex items-center gap-3 group mt-12">
+              <a href="/finance-tracker" className="mt-4 flex items-center gap-3 group mt-12">
                 <div className="bg-[#191a23] rounded-full p-2 transition-transform duration-300 group-hover:scale-110">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +92,7 @@ const LandingPage = () => {
               <h1 className="text-4xl font-bold bg-[#b9ff66] p-3 w-full">
                 Pending Tasks
               </h1>
-              <a href="/" className="mt-4 flex items-center gap-3 group mt-12">
+              <a href="/committee-allocation" className="mt-4 flex items-center gap-3 group mt-12">
                 <div className="bg-[#191a23] rounded-full p-2 transition-transform duration-300 group-hover:scale-110">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
